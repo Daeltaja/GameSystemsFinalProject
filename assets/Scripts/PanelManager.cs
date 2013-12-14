@@ -4,9 +4,10 @@ using System.Collections;
 public class PanelManager : MonoBehaviour {
 	
 	public GameObject[] panels; //array for 4 panels
-	int cnt = 1; //counter for assigning panels into array
+	private int cnt = 1; //counter for assigning panels into array
+	public static bool isMovable = true;
 
-	void Start()
+	void Awake()
 	{
 		for(int p = 0; p < 3; p++)
 		{
@@ -18,6 +19,15 @@ public class PanelManager : MonoBehaviour {
 	void Update () 
 	{
 		Raycast();
+		ToggleStates();
+	}
+
+	void ToggleStates()
+	{
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			isMovable = !isMovable;
+		}
 	}
 
 	void Raycast()
@@ -34,7 +44,7 @@ public class PanelManager : MonoBehaviour {
 					PanelScript allPanels = go.GetComponent<PanelScript>();
 					allPanels.onActive = false;
 				}
-
+				isMovable = true;
 				PanelScript thisPanel = whatIHit.collider.gameObject.GetComponent<PanelScript>();
 				thisPanel.onActive = true;
 			}

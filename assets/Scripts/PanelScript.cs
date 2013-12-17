@@ -10,11 +10,18 @@ public class PanelScript : MonoBehaviour {
 	private int cnt = 1; //counter for assigning panels into array
 	public bool onActive = false;
 	public GameObject sibling; //matching game panel 
+	PanelManager pm;
+	GameObject pmGO;
+	public GameObject target1, target2;
+	float timer;
 
 	void Awake()
 	{
 		newPosition = transform.position;
 		newPositionSibling = sibling.transform.position;
+
+		pmGO = GameObject.Find ("Main Camera");
+		pm = pmGO.GetComponent<PanelManager>();
 
 		pos1 = new Vector2(-3.7f, 2.35f);
 		pos2 = new Vector2(3.76f, 2.35f);
@@ -54,6 +61,7 @@ public class PanelScript : MonoBehaviour {
 					newPosition = pos4;
 					newPositionSibling = spos4;
 				}
+				pm.BroadcastMessage("TutorialCheck");
 			}
 		}
 		if(Input.GetAxisRaw("Horizontal") < 0)
@@ -70,6 +78,7 @@ public class PanelScript : MonoBehaviour {
 					newPosition = pos3;
 					newPositionSibling = spos3;
 				}
+				pm.BroadcastMessage("TutorialCheck");
 			}
 		}
 		if(Input.GetAxisRaw("Vertical") > 0)
@@ -86,6 +95,7 @@ public class PanelScript : MonoBehaviour {
 					newPosition = pos2;
 					newPositionSibling = spos2;
 				}
+				pm.BroadcastMessage("TutorialCheck");
 			}
 		}
 		if(Input.GetAxisRaw("Vertical") < 0)
@@ -101,13 +111,11 @@ public class PanelScript : MonoBehaviour {
 				{
 					newPosition = pos4;
 					newPositionSibling = spos4;
-
 				}
+				pm.BroadcastMessage("TutorialCheck");
 			}
 		}
-		
 		transform.position = Vector3.Lerp(transform.position, newPosition, 6f * Time.deltaTime);
 		sibling.transform.position = newPositionSibling;
 	}
-
 }
